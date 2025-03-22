@@ -1,11 +1,22 @@
 import socket
 import random
+import requests
+import time
 
-HOST = input("Enter opponent's IP: ")
+SERVER_URL = "https://breakey.onrender.com"  
+
+while True:
+    response = requests.get(f"{SERVER_URL}/find_match").json()
+    match_ip = response.get("match")
+    if match_ip:
+        print(f"Found opponent at {match_ip}")
+        break
+    print("Waiting for an opponent...")
+    time.sleep(2)
+
 PORT = 12345
-
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect((HOST, PORT))
+client.connect((match_ip, PORT))
 
 enemy_strength = float(client.recv(1024).decode())
 print(f"Opponent's key strength: {enemy_strength}")

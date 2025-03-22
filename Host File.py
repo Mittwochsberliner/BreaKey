@@ -1,19 +1,22 @@
 import socket
 import random
+import requests
 
-hostname = socket.gethostname()
-HOST = socket.gethostbyname(hostname)
+SERVER_URL = "https://breakey.onrender.com"  
+
+host_ip = requests.get("https://api64.ipify.org?format=json").json()["ip"]
+
+# Register as available
+requests.post(f"{SERVER_URL}/register", json={"ip": host_ip})
+print("Waiting for a match...")
+
 PORT = 12345
-
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind((HOST, PORT))
+server.bind((host_ip, PORT))
 server.listen(1)
 
-
-print(f"Waiting for a player to connect on {HOST}:{PORT}...")
-
 conn, addr = server.accept()
-print(f"Connected by {addr}")
+print(f"Connected to {addr}")
 
 my_key_strength = random.random()
 conn.send(str(my_key_strength).encode())
