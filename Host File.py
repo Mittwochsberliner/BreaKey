@@ -1,7 +1,8 @@
 import socket
 import random
 
-HOST = "0.0.0.0"
+hostname = socket.gethostname()
+HOST = socket.gethostbyname(hostname)
 PORT = 12345
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -17,7 +18,7 @@ print(f"Connected by {addr}")
 my_key_strength = random.random()
 conn.send(str(my_key_strength).encode())
 
-enemy_strength = int(conn.recv(1024).decode())
+enemy_strength = float(conn.recv(1024).decode())
 print(f"Enemy key strength: {enemy_strength}")
 
 if my_key_strength > enemy_strength:

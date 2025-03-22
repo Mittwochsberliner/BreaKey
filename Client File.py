@@ -7,7 +7,7 @@ PORT = 12345
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect((HOST, PORT))
 
-enemy_strength = int(client.recv(1024).decode())
+enemy_strength = float(client.recv(1024).decode())
 print(f"Opponent's key strength: {enemy_strength}")
 
 my_key_strength = random.random()
